@@ -19,7 +19,7 @@ public class PegSolitaireGame {
                 System.out.println("It looks like there are no more legal moves.  Please try again.");
                 break;
             } else {
-                int[] move = readValidMove(sc, board != null ? board : new char[0][]);
+                int[] move = readValidMove(sc, board);
                 int column = move[0];
                 int row = move[1];
                 int direction = move[2];
@@ -34,12 +34,17 @@ public class PegSolitaireGame {
     public static int readValidInt(Scanner in, String prompt, int min, int max)
     {
         System.out.print(prompt);
-        int userInput = in.nextInt();
-        if (userInput < min || userInput > max) {
-            String newPrompt = String.format("Please enter your choice as an integer between %d and %d: ", min, max);
-            return readValidInt(in, newPrompt, min, max);
-        } else {
-            return userInput;
+        String input = in.nextLine();
+        try {
+            int userInput = Integer.parseInt(input);
+            if (userInput < min || userInput > max) {
+                return readValidInt(in, String.format("Please enter your choice as an integer between %d and %d: ", min, max), min, max);
+            } else {
+                return userInput;
+            }
+        }
+        catch (NumberFormatException ex){
+            return readValidInt(in, String.format("Please enter your choice as an integer between %d and %d: ", min, max), min, max);
         }
     }
 
